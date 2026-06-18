@@ -123,21 +123,3 @@ Main steps:
 2. Download artifact `pr-walkthrough-<number>` from the source run.
 3. Publish the artifact contents to `gh-pages` at `pr-walkthrough/pr-<number>/`.
 4. Post or update a sticky PR comment containing the live URL.
-
-## Manual retry without spending Oz credits
-
-If generation succeeded but publishing/commenting failed, rerun only the publish workflow:
-
-```bash
-gh workflow run pr-walkthrough-publish.yml \
-  -f run_id=<successful-pr-walkthrough-run-id> \
-  -f pr_number=<pr-number>
-```
-
-This downloads the existing artifact and does not run Oz again.
-
-## Notes
-
-- Generated walkthrough artifacts can include code, PR descriptions, review comments, and other PR context. Only use this with repositories where publishing that context to GitHub Pages is acceptable.
-- The generated site loads D3 from a pinned CDN URL as defined by the `pr-walkthrough` skill.
-- For private repositories, consider whether a public GitHub Pages URL is appropriate before enabling this workflow.
