@@ -1,13 +1,13 @@
 # PR Walkthrough CI
 
-Sample GitHub Actions workflows for generating and publishing a live PR walkthrough visualizer with Oz.
+Sample GitHub Actions workflows for generating and publishing a live PR walkthrough visualizer using [the /pr-walkthrough skill](https://github.com/warpdotdev/common-skills/blob/main/.agents/skills/pr-walkthrough/SKILL.md).
 
-This repository is intentionally small. Copy the two workflow files in `.github/workflows/` into another GitHub repository to add PR walkthrough previews:
+Copy the workflow files in `.github/workflows/` into your GitHub repository to add PR walkthrough previews:
 
 - `.github/workflows/pr-walkthrough.yml` generates a static PR walkthrough with Oz and uploads it as an Actions artifact.
 - `.github/workflows/pr-walkthrough-publish.yml` downloads that artifact, publishes it to GitHub Pages, and posts a sticky PR comment with the live URL.
 
-The workflows are split so the Oz generation job can run with read-only repository permissions. Only the publish/comment workflow receives write permissions.
+The workflows are split so the agentic generation job can run with read-only repository permissions. Only the publish/comment workflow receives write permissions.
 
 ## What the PR comment links to
 
@@ -17,28 +17,17 @@ The generated site is published to the `gh-pages` branch under a PR-specific pat
 https://<owner>.github.io/<repo>/pr-walkthrough/pr-<number>/
 ```
 
-For example:
-
-```text
-https://bholmesdev.github.io/hubble.md/pr-walkthrough/pr-73/
-```
-
 ## Required setup
 
 ### 1. Add a Warp API key secret
 
-Create a repository secret named `WARP_API_KEY`.
+This example uses [the Oz platform](https://docs.warp.dev/agent-platform/cloud-agents/integrations/github-actions/) to run a coding agent on a GitHub action. To use this, you'll need [a Warp API key](https://docs.warp.dev/reference/cli/api-keys/) with some available tokens.
 
-The generation workflow passes this secret to `warpdotdev/oz-agent-action`:
+Create [a repository secret](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository) named `WARP_API_KEY`, and the generation workflow passes this secret to `warpdotdev/oz-agent-action`:
 
 ```yaml
 warp_api_key: ${{ secrets.WARP_API_KEY }}
 ```
-
-GitHub docs:
-
-- [Using secrets in GitHub Actions](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions)
-- [Creating secrets for a repository](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository)
 
 Oz action:
 
